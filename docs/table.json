@@ -1,0 +1,581 @@
+{
+  "start_state": 0,
+  "eof": "EOF",
+  "productions": [
+    {
+      "lhs": "Start",
+      "rhs": [
+        "Program"
+      ]
+    },
+    {
+      "lhs": "Program",
+      "rhs": [
+        "Declaration",
+        "BEGIN",
+        "Commands",
+        "END"
+      ]
+    },
+    {
+      "lhs": "Declaration",
+      "rhs": [
+        "VAR",
+        "Names",
+        ":",
+        "LOGICAL",
+        ";"
+      ]
+    },
+    {
+      "lhs": "Names",
+      "rhs": [
+        "ID"
+      ]
+    },
+    {
+      "lhs": "Names",
+      "rhs": [
+        "Names",
+        ",",
+        "ID"
+      ]
+    },
+    {
+      "lhs": "Commands",
+      "rhs": [
+        "Command"
+      ]
+    },
+    {
+      "lhs": "Commands",
+      "rhs": [
+        "Commands",
+        "Command"
+      ]
+    },
+    {
+      "lhs": "Command",
+      "rhs": [
+        "Assignment"
+      ]
+    },
+    {
+      "lhs": "Command",
+      "rhs": [
+        "READ",
+        "(",
+        "Names",
+        ")",
+        ";"
+      ]
+    },
+    {
+      "lhs": "Command",
+      "rhs": [
+        "WRITE",
+        "(",
+        "Names",
+        ")",
+        ";"
+      ]
+    },
+    {
+      "lhs": "Command",
+      "rhs": [
+        "REPEAT",
+        "Assignments",
+        "UNTIL",
+        "Expr",
+        ";"
+      ]
+    },
+    {
+      "lhs": "Assignments",
+      "rhs": [
+        "Assignment"
+      ]
+    },
+    {
+      "lhs": "Assignments",
+      "rhs": [
+        "Assignments",
+        "Assignment"
+      ]
+    },
+    {
+      "lhs": "Assignment",
+      "rhs": [
+        "ID",
+        "=",
+        "Expr",
+        ";"
+      ]
+    },
+    {
+      "lhs": "Expr",
+      "rhs": [
+        "Expr",
+        "IMP",
+        "Disjunction"
+      ]
+    },
+    {
+      "lhs": "Expr",
+      "rhs": [
+        "Disjunction"
+      ]
+    },
+    {
+      "lhs": "Disjunction",
+      "rhs": [
+        "Disjunction",
+        "OR",
+        "Conjunction"
+      ]
+    },
+    {
+      "lhs": "Disjunction",
+      "rhs": [
+        "Conjunction"
+      ]
+    },
+    {
+      "lhs": "Conjunction",
+      "rhs": [
+        "Conjunction",
+        "AND",
+        "Unary"
+      ]
+    },
+    {
+      "lhs": "Conjunction",
+      "rhs": [
+        "Unary"
+      ]
+    },
+    {
+      "lhs": "Unary",
+      "rhs": [
+        "NOT",
+        "Unary"
+      ]
+    },
+    {
+      "lhs": "Unary",
+      "rhs": [
+        "Atom"
+      ]
+    },
+    {
+      "lhs": "Atom",
+      "rhs": [
+        "(",
+        "Expr",
+        ")"
+      ]
+    },
+    {
+      "lhs": "Atom",
+      "rhs": [
+        "ID"
+      ]
+    },
+    {
+      "lhs": "Atom",
+      "rhs": [
+        "CONST"
+      ]
+    }
+  ],
+  "action": [
+    {
+      "VAR": "s3"
+    },
+    {
+      "BEGIN": "s4"
+    },
+    {
+      "EOF": "ok"
+    },
+    {
+      "ID": "s5"
+    },
+    {
+      "ID": "s10",
+      "READ": "s11",
+      "REPEAT": "s12",
+      "WRITE": "s13"
+    },
+    {
+      ")": "r3",
+      ",": "r3",
+      ":": "r3"
+    },
+    {
+      ",": "s14",
+      ":": "s15"
+    },
+    {
+      "END": "r7",
+      "ID": "r7",
+      "READ": "r7",
+      "REPEAT": "r7",
+      "WRITE": "r7"
+    },
+    {
+      "END": "r5",
+      "ID": "r5",
+      "READ": "r5",
+      "REPEAT": "r5",
+      "WRITE": "r5"
+    },
+    {
+      "END": "s17",
+      "ID": "s10",
+      "READ": "s11",
+      "REPEAT": "s12",
+      "WRITE": "s13"
+    },
+    {
+      "=": "s18"
+    },
+    {
+      "(": "s19"
+    },
+    {
+      "ID": "s10"
+    },
+    {
+      "(": "s22"
+    },
+    {
+      "ID": "s23"
+    },
+    {
+      "LOGICAL": "s24"
+    },
+    {
+      "END": "r6",
+      "ID": "r6",
+      "READ": "r6",
+      "REPEAT": "r6",
+      "WRITE": "r6"
+    },
+    {
+      "EOF": "r1"
+    },
+    {
+      "(": "s25",
+      "CONST": "s27",
+      "ID": "s31",
+      "NOT": "s32"
+    },
+    {
+      "ID": "s5"
+    },
+    {
+      "ID": "r11",
+      "UNTIL": "r11"
+    },
+    {
+      "ID": "s10",
+      "UNTIL": "s36"
+    },
+    {
+      "ID": "s5"
+    },
+    {
+      ")": "r4",
+      ",": "r4",
+      ":": "r4"
+    },
+    {
+      ";": "s38"
+    },
+    {
+      "(": "s25",
+      "CONST": "s27",
+      "ID": "s31",
+      "NOT": "s32"
+    },
+    {
+      ")": "r21",
+      ";": "r21",
+      "AND": "r21",
+      "IMP": "r21",
+      "OR": "r21"
+    },
+    {
+      ")": "r24",
+      ";": "r24",
+      "AND": "r24",
+      "IMP": "r24",
+      "OR": "r24"
+    },
+    {
+      ")": "r17",
+      ";": "r17",
+      "IMP": "r17",
+      "OR": "r17",
+      "AND": "s40"
+    },
+    {
+      ")": "r15",
+      ";": "r15",
+      "IMP": "r15",
+      "OR": "s41"
+    },
+    {
+      ";": "s42",
+      "IMP": "s43"
+    },
+    {
+      ")": "r23",
+      ";": "r23",
+      "AND": "r23",
+      "IMP": "r23",
+      "OR": "r23"
+    },
+    {
+      "(": "s25",
+      "CONST": "s27",
+      "ID": "s31",
+      "NOT": "s32"
+    },
+    {
+      ")": "r19",
+      ";": "r19",
+      "AND": "r19",
+      "IMP": "r19",
+      "OR": "r19"
+    },
+    {
+      ")": "s45",
+      ",": "s14"
+    },
+    {
+      "ID": "r12",
+      "UNTIL": "r12"
+    },
+    {
+      "(": "s25",
+      "CONST": "s27",
+      "ID": "s31",
+      "NOT": "s32"
+    },
+    {
+      ")": "s47",
+      ",": "s14"
+    },
+    {
+      "BEGIN": "r2"
+    },
+    {
+      ")": "s48",
+      "IMP": "s43"
+    },
+    {
+      "(": "s25",
+      "CONST": "s27",
+      "ID": "s31",
+      "NOT": "s32"
+    },
+    {
+      "(": "s25",
+      "CONST": "s27",
+      "ID": "s31",
+      "NOT": "s32"
+    },
+    {
+      "END": "r13",
+      "ID": "r13",
+      "READ": "r13",
+      "REPEAT": "r13",
+      "UNTIL": "r13",
+      "WRITE": "r13"
+    },
+    {
+      "(": "s25",
+      "CONST": "s27",
+      "ID": "s31",
+      "NOT": "s32"
+    },
+    {
+      ")": "r20",
+      ";": "r20",
+      "AND": "r20",
+      "IMP": "r20",
+      "OR": "r20"
+    },
+    {
+      ";": "s52"
+    },
+    {
+      ";": "s53",
+      "IMP": "s43"
+    },
+    {
+      ";": "s54"
+    },
+    {
+      ")": "r22",
+      ";": "r22",
+      "AND": "r22",
+      "IMP": "r22",
+      "OR": "r22"
+    },
+    {
+      ")": "r18",
+      ";": "r18",
+      "AND": "r18",
+      "IMP": "r18",
+      "OR": "r18"
+    },
+    {
+      ")": "r16",
+      ";": "r16",
+      "IMP": "r16",
+      "OR": "r16",
+      "AND": "s40"
+    },
+    {
+      ")": "r14",
+      ";": "r14",
+      "IMP": "r14",
+      "OR": "s41"
+    },
+    {
+      "END": "r8",
+      "ID": "r8",
+      "READ": "r8",
+      "REPEAT": "r8",
+      "WRITE": "r8"
+    },
+    {
+      "END": "r10",
+      "ID": "r10",
+      "READ": "r10",
+      "REPEAT": "r10",
+      "WRITE": "r10"
+    },
+    {
+      "END": "r9",
+      "ID": "r9",
+      "READ": "r9",
+      "REPEAT": "r9",
+      "WRITE": "r9"
+    }
+  ],
+  "goto": [
+    {
+      "Declaration": 1,
+      "Program": 2
+    },
+    {},
+    {},
+    {
+      "Names": 6
+    },
+    {
+      "Assignment": 7,
+      "Command": 8,
+      "Commands": 9
+    },
+    {},
+    {},
+    {},
+    {},
+    {
+      "Assignment": 7,
+      "Command": 16
+    },
+    {},
+    {},
+    {
+      "Assignment": 20,
+      "Assignments": 21
+    },
+    {},
+    {},
+    {},
+    {},
+    {},
+    {
+      "Atom": 26,
+      "Conjunction": 28,
+      "Disjunction": 29,
+      "Expr": 30,
+      "Unary": 33
+    },
+    {
+      "Names": 34
+    },
+    {},
+    {
+      "Assignment": 35
+    },
+    {
+      "Names": 37
+    },
+    {},
+    {},
+    {
+      "Atom": 26,
+      "Conjunction": 28,
+      "Disjunction": 29,
+      "Expr": 39,
+      "Unary": 33
+    },
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {
+      "Atom": 26,
+      "Unary": 44
+    },
+    {},
+    {},
+    {},
+    {
+      "Atom": 26,
+      "Conjunction": 28,
+      "Disjunction": 29,
+      "Expr": 46,
+      "Unary": 33
+    },
+    {},
+    {},
+    {},
+    {
+      "Atom": 26,
+      "Unary": 49
+    },
+    {
+      "Atom": 26,
+      "Conjunction": 50,
+      "Unary": 33
+    },
+    {},
+    {
+      "Atom": 26,
+      "Conjunction": 28,
+      "Disjunction": 51,
+      "Unary": 33
+    },
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {}
+  ]
+}

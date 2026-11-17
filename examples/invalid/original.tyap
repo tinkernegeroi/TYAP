@@ -1,0 +1,11 @@
+BEGIN
+    READ(A, B);
+    C = A AND B;
+    1D = NOT A OR B1;
+    REPEAT
+        A = A OR B;
+        C = A IMP D;
+    UNTIL C;
+    WRITE(A, B, C, D);
+END
+VAR A, B, C, D:LOGICAL

@@ -1,0 +1,10 @@
+[project]
+name = "TYAP"
+version = "0.1.0"
+description = "Лексический и восходящий синтаксический анализатор варианта 10"
+requires-python = ">=3.10"
+dependencies = []
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"

@@ -1,0 +1,4 @@
+VAR A:LOGICAL;
+BEGIN
+    A = 1
+END
