@@ -1,11 +1,11 @@
-"""Build the variant 10 SLR(1) table from the grammar below."""
+"""Построение таблицы восходящего разбора для варианта 10."""
 
 import json
 from collections import defaultdict, deque
 from pathlib import Path
 
 
-from .rules import RULES, PRODUCTIONS
+from .rules import BINARY_PRIORITY, EXPRESSION_REDUCTION, PRODUCTIONS, RULES
 
 NONTERMINALS = list(dict.fromkeys(left for left, _ in PRODUCTIONS))
 TERMINALS = sorted({symbol for _, right in PRODUCTIONS for symbol in right}
@@ -47,7 +47,7 @@ def terminal_after(first, last):
         for left, following in zip(right, right[1:]):
             for terminal in last[left]:
                 after[terminal].update(first[following])
-    for terminal in last["Program"]:
+    for terminal in last["I"]:
         after[terminal].add("EOF")
     return after
 
@@ -77,7 +77,13 @@ def build():
 
     def put(row, symbol, value):
         if symbol in row and row[symbol] != value:
-            raise ValueError(f"Conflict in state {state}, {symbol}: {row[symbol]} vs {value}")
+            previous = row[symbol]
+            # G → G J G оставляем как в исходной грамматике.
+            if (symbol in BINARY_PRIORITY
+                    and previous == EXPRESSION_REDUCTION and value.startswith("s")):
+                row[symbol] = f"{previous}/{value}"
+                return
+            raise ValueError(f"Conflict in state {state}, {symbol}: {previous} vs {value}")
         row[symbol] = value
 
     for state, items in enumerate(states):
@@ -122,10 +128,12 @@ def write_outputs():
     rows = [
         "# Таблица переходов и расчёт",
         "",
-        f"Получено **{len(states)} состояний**. Конфликтов в таблице SLR(1) нет.",
+        f"Получено **{len(states)} состояний**. Таблица построена методом SLR.",
         "",
         "Начальное состояние — 0. `sN` — прочитать токен и перейти в N,",
         "`rN` — свернуть правило N, `ok` — принять программу.",
+        "В ячейке `rN/sM` автомат выбирает перенос при более сильной входной",
+        "бинарной операции. Во всех остальных случаях выполняется свёртка.",
         "Если нужного токена в столбце ACTION нет, это синтаксическая ошибка.",
         "",
         "| Состояние | ACTION по токену | GOTO по нетерминалу |",

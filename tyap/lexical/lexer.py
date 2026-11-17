@@ -2,7 +2,6 @@
 from tyap.tokens import KEYWORDS, SYMBOLS, Token, TokenType, is_letter, is_word_char
 from .models import LexerResult, LexicalError
 
-LOGICAL_OPERATORS = {f".{name}.": TokenType[name] for name in ("NOT", "AND", "OR", "IMP")}
 
 class Lexer:
     def __init__(self, source: str):
@@ -34,39 +33,22 @@ class Lexer:
             self._advance()
         lexeme = self.source[start:self.position]
 
-        if lexeme in ("NOT", "AND", "OR", "IMP"):
-            self._error(lexeme, line, column, f"Операцию нужно записать как .{lexeme}.")
-            return
         if lexeme in KEYWORDS:
             token = Token(KEYWORDS[lexeme], lexeme, line, column)
         elif lexeme in ("0", "1"):
             index = self.result.constants.intern(lexeme)
             token = Token(TokenType.CONSTANT, lexeme, line, column, index)
-        elif len(lexeme) <= 8 and all(is_letter(char) for char in lexeme):
+        elif all(is_letter(char) for char in lexeme):
             index = self.result.identifiers.intern(lexeme)
             token = Token(TokenType.IDENTIFIER, lexeme, line, column, index)
         else:
             if lexeme[0].isdecimal():
                 message = "Недопустимая константа: разрешены только отдельные 0 и 1"
             else:
-                message = "Недопустимый идентификатор: разрешены от 1 до 8 заглавных латинских букв"
+                message = "Недопустимый идентификатор: разрешены только латинские буквы"
             self._error(lexeme, line, column, message)
             return
         self.result.tokens.append(token)
-
-    def _scan_operator(self) -> None:
-        start = self.position
-        line, column = self.line, self.column
-        self._advance()
-        while self.position < len(self.source) and is_word_char(self.source[self.position]):
-            self._advance()
-        if self.position < len(self.source) and self.source[self.position] == ".":
-            self._advance()
-        lexeme = self.source[start:self.position]
-        if lexeme in LOGICAL_OPERATORS:
-            self.result.tokens.append(Token(LOGICAL_OPERATORS[lexeme], lexeme, line, column))
-        else:
-            self._error(lexeme, line, column, "Ожидалась .NOT., .AND., .OR. или .IMP.")
 
     def scan(self) -> LexerResult:
         self.position, self.line, self.column = 0, 1, 1
@@ -77,8 +59,6 @@ class Lexer:
                 self._advance()
             elif is_word_char(char):
                 self._scan_word()
-            elif char == ".":
-                self._scan_operator()
             elif char in SYMBOLS:
                 self.result.tokens.append(
                     Token(SYMBOLS[char], char, self.line, self.column)
@@ -89,5 +69,3 @@ class Lexer:
                 self._advance()
         self.result.tokens.append(Token(TokenType.EOF, "", self.line, self.column))
         return self.result
-
-

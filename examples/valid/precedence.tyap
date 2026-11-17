@@ -1,4 +1,4 @@
-VAR A:LOGICAL;
 BEGIN
-    A = .NOT. 0 .AND. 1 .OR. 0 .IMP. 1;
+    A = (NOT 0) AND 1 OR 0 IMP 1;
 END
+VAR A:LOGICAL

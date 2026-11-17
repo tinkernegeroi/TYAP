@@ -5,6 +5,7 @@ import sys
 
 from tyap.diagnostics import ParseError
 from tyap.lexical.lexer import Lexer
+from tyap.syntax.nodes import build_ast
 from tyap.syntax.parser import Parser, TraceStep
 
 DEMO = Path(__file__).resolve().parents[1] / 'examples/valid/program.tyap'
@@ -40,6 +41,8 @@ def main(argv: list[str] | None = None) -> int:
         if args.trace:
             print('Вход | Стек состояний | Стек символов | Следующая лексема | Действие')
         tree = Parser().parse(result.tokens, print_trace if args.trace else None)
+        if args.tree or args.tree_output:
+            tree = build_ast(tree)
         if args.tree:
             for line in tree.lines():
                 print(line)

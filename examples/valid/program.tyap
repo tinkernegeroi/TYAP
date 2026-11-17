@@ -1,11 +1,11 @@
-VAR A, B, C, D:LOGICAL;
 BEGIN
     READ(A, B);
-    C = A .AND. B;
-    D = .NOT. A .OR. B;
+    C = A AND B;
+    D = NOT A OR B;
     REPEAT
-        A = A .OR. B;
-        C = A .IMP. D;
+        A = A OR B;
+        C = A IMP D;
     UNTIL C;
     WRITE(A, B, C, D);
 END
+VAR A, B, C, D:LOGICAL

@@ -2,6 +2,7 @@
 from dataclasses import dataclass
 from enum import IntEnum
 
+
 class TokenType(IntEnum):
     """Фиксированные числовые коды видов лексем."""
 
@@ -48,7 +49,7 @@ SYMBOLS = {
 
 
 def is_letter(char: str) -> bool:
-    return "A" <= char <= "Z"
+    return "A" <= char <= "Z" or "a" <= char <= "z"
 
 
 def is_word_char(char: str) -> bool:
@@ -70,5 +71,3 @@ class Token:
     @property
     def pair(self) -> tuple[int, int | None]:
         return self.code, self.symbol_index
-
-

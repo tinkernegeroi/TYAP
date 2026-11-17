@@ -1,18 +1,20 @@
-"""Детерминированный восходящий магазинный автомат SLR(1)."""
+"""Восходящий магазинный автомат варианта 10."""
 from collections.abc import Callable, Sequence
 from dataclasses import dataclass
 
 from tyap.diagnostics import ParseError
-from tyap.grammar.rules import PRODUCTIONS
+from tyap.grammar.rules import BINARY_PRIORITY, PRODUCTIONS
 from tyap.grammar.table import build
 from tyap.tokens import SYMBOLS, Token, TokenType
 from .tree import Node
 
 TERMINALS = {kind: spelling for spelling, kind in SYMBOLS.items()}
-TERMINALS.update({TokenType.IDENTIFIER: 'ID', TokenType.CONSTANT: 'CONST'})
+TERMINALS[TokenType.IDENTIFIER] = 'ID'
 
 
 def terminal(token: Token) -> str:
+    if token.kind == TokenType.CONSTANT:
+        return token.lexeme
     return TERMINALS.get(token.kind, token.kind.name)
 
 
@@ -27,7 +29,6 @@ class TraceStep:
 
 class Parser:
     def __init__(self):
-        # Строится из правил, а не из отдельной вручную синхронизируемой таблицы.
         self.action, self.goto, *_ = build()
 
     def parse(
@@ -50,6 +51,8 @@ class Parser:
             symbol = terminal(token)
             row = self.action[states[-1]]
             action = row.get(symbol)
+            if action is not None and '/' in action:
+                action = self._choose_action(action, nodes[-2], symbol)
             if trace is not None:
                 trace(TraceStep(tuple(states), tuple(n.symbol for n in nodes),
                                 position, token, action or 'error'))
@@ -63,10 +66,19 @@ class Parser:
                 states.append(number)
                 position += 1
             else:
-                left, right = PRODUCTIONS[number]
-                size = len(right)
-                children = tuple(nodes[-size:])
-                del nodes[-size:]
-                del states[-size:]
-                nodes.append(Node(left, children, rule=number))
-                states.append(self.goto[states[-1]][left])
+                self._reduce(number, states, nodes)
+
+    @staticmethod
+    def _choose_action(actions: str, operator: Node, lookahead: str) -> str:
+        reduce, shift = actions.split('/')
+        previous = operator.children[0].symbol
+        return shift if BINARY_PRIORITY[lookahead] > BINARY_PRIORITY[previous] else reduce
+
+    def _reduce(self, number: int, states: list[int], nodes: list[Node]) -> None:
+        left, right = PRODUCTIONS[number]
+        size = len(right)
+        children = tuple(nodes[-size:])
+        del nodes[-size:]
+        del states[-size:]
+        nodes.append(Node(left, children, rule=number))
+        states.append(self.goto[states[-1]][left])
