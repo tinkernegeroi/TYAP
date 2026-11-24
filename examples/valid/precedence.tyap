@@ -1,4 +1,5 @@
 BEGIN
     VAR A:LOGICAL;
     A = (NOT 0) AND 1 OR 0 IMP 1;
+    WRITE(A);
 END
