@@ -1,4 +1,4 @@
 BEGIN
+    VAR A:LOGICAL;
     A = 1
 END
-VAR A:LOGICAL

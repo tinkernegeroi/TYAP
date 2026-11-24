@@ -3,9 +3,9 @@
 # Лексер уже распознаёт L целиком. Значения M различаются по тексту токена.
 RULES = (
     'Start -> I',
-    'I -> A B',
-    'A -> BEGIN P END',
-    'B -> VAR C : LOGICAL',
+    'I -> BEGIN B A END',
+    'A -> P',
+    'B -> VAR C : LOGICAL ;',
     'C -> L',
     'C -> L , C',
     'P -> E',

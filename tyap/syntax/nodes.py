@@ -15,9 +15,9 @@ def _ast_parts(node: Node) -> tuple[str, tuple[Node, ...]]:
     children = node.children
     match node.symbol:
         case 'I':
-            return 'Program', children
+            return 'Program', (children[2], children[1])
         case 'A':
-            return 'Block', tuple(_list_items(children[1], 1))
+            return 'Block', tuple(_list_items(children[0], 1))
         case 'B':
             return 'Declaration LOGICAL', tuple(_list_items(children[1], 2))
         case 'E':

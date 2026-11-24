@@ -1,4 +1,5 @@
 BEGIN
+    VAR A, B, C, D:LOGICAL;
     READ(A, B);
     C = A AND B;
     1D = NOT A OR B1;
@@ -8,4 +9,3 @@ BEGIN
     UNTIL C;
     WRITE(A, B, C, D);
 END
-VAR A, B, C, D:LOGICAL
